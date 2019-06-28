@@ -138,16 +138,23 @@ public class WebSocketHubConnectionP2 implements HubConnection {
                     for (String m : messages) {
                         SignalRMessage element = gson.fromJson(m, SignalRMessage.class);
                         Integer type = element.getType();
-                        if (type != null && type == 1) {
-                            HubMessage hubMessage = new HubMessage(element.getInvocationId(), element.getTarget(), element.getArguments());
-                            for (HubConnectionListener listener : listeners) {
-                                listener.onMessage(hubMessage);
-                            }
+                        if (type != null) {
+                            if (type == 1) {
+                                HubMessage hubMessage = new HubMessage(element.getInvocationId(), element.getTarget(), element.getArguments());
+                                for (HubConnectionListener listener : listeners) {
+                                    listener.onMessage(hubMessage);
+                                }
 
-                            List<HubEventListener> hubEventListeners = eventListeners.get(hubMessage.getTarget());
-                            if (hubEventListeners != null) {
-                                for (HubEventListener listener : hubEventListeners) {
-                                    listener.onEventMessage(hubMessage);
+                                List<HubEventListener> hubEventListeners = eventListeners.get(hubMessage.getTarget());
+                                if (hubEventListeners != null) {
+                                    for (HubEventListener listener : hubEventListeners) {
+                                        listener.onEventMessage(hubMessage);
+                                    }
+                                }
+                            } else if (type == 7) {
+                                SignalRErrorMessage errorElement = gson.fromJson(m, SignalRErrorMessage.class);
+                                for (HubConnectionListener listener : listeners) {
+                                    listener.onErrorMessage(errorElement);
                                 }
                             }
                         }

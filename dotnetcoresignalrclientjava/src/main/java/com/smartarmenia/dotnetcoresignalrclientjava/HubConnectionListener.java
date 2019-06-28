@@ -7,5 +7,7 @@ public interface HubConnectionListener {
 
     void onMessage(HubMessage message);
 
+    void onErrorMessage(SignalRErrorMessage message);
+
     void onError(Exception exception);
 }

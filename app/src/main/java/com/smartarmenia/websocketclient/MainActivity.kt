@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity(), HubConnectionListener, HubEventListene
         runOnUiThread { Toast.makeText(this@MainActivity, "${message.target}\n${Gson().toJson(message.arguments)}", Toast.LENGTH_SHORT).show() }
     }
 
+    override fun onErrorMessage(message: SignalRErrorMessage?) {
+        runOnUiThread { Toast.makeText(this@MainActivity, message?.error, Toast.LENGTH_SHORT).show() }
+    }
+
     override fun onError(exception: Exception) {
         runOnUiThread { Toast.makeText(this@MainActivity, exception.message, Toast.LENGTH_SHORT).show() }
     }
