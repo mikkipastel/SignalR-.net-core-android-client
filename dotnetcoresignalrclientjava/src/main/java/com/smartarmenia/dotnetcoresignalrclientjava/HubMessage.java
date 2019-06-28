@@ -3,8 +3,8 @@ package com.smartarmenia.dotnetcoresignalrclientjava;
 import com.google.gson.JsonElement;
 
 public class HubMessage {
-    private String invocationId = "";
-    private String target = "";
+    private String invocationId ;
+    private String target;
     private JsonElement[] arguments;
 
     public HubMessage(String invocationId, String target, JsonElement[] arguments) {
